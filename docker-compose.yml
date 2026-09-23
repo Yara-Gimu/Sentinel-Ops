@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  payment-gateway:
+    build:
+      context: ./app
+    container_name: sentinel-ops-payment-gateway
+    ports:
+      - "5000:5000"
+    environment:
+      - FAILURE_RATE=0.1
+      - MIN_LATENCY_MS=50
+      - MAX_LATENCY_MS=400
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    networks:
+      - sentinel-net
+
+# NOTE for P4: add your prometheus/grafana services to this same file,
+# pointing the Prometheus scrape target at payment-gateway:5000/metrics
+# so the whole stack comes up together for Integration Gate #1.
+
+networks:
+  sentinel-net:
+    driver: bridge

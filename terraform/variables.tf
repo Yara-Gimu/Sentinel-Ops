@@ -1,13 +1,13 @@
 variable "location" {
   description = "Azure region for all resources. Confirm VM SKU availability first."
   type        = string
-  default     = "East US 2"
+  default     = "centralus"
 }
 
 variable "vm_size" {
   description = "Azure VM size available to the active subscription and region."
   type        = string
-  default     = "Standard_B2s"
+  default     = "Standard_D2s_v7"
 }
 
 variable "admin_password" {

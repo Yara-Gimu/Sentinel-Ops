@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   payment-gateway:
     build:
@@ -20,16 +18,16 @@ services:
     networks:
       - sentinel-net
   prometheus:
-      image: prom/prometheus:latest
-      container_name: sentinel-ops-prometheus
-      ports:
-        - "9090:9090"
-      volumes:
-        - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      networks:
-        - sentinel-net
-      depends_on:
-        - payment-gateway
+    image: prom/prometheus:latest
+    container_name: sentinel-ops-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+      - sentinel-net
+    depends_on:
+      - payment-gateway
 # NOTE for P4: add your prometheus/grafana services to this same file,
 # pointing the Prometheus scrape target at payment-gateway:5000/metrics
 # so the whole stack comes up together for Integration Gate #1.

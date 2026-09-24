@@ -1,0 +1,6 @@
+# Copy to terraform.tfvars locally and replace every placeholder.
+# Never commit terraform.tfvars because it contains secrets.
+location                   = "East US 2"
+vm_size                    = "REPLACE_WITH_AVAILABLE_VM_SIZE"
+admin_password             = "REPLACE_WITH_A_SECRET_PASSWORD"
+ssh_source_address_prefix = "YOUR_PUBLIC_IP/32"

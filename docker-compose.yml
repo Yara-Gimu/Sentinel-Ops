@@ -17,6 +17,7 @@ services:
       retries: 3
     networks:
       - sentinel-net
+
   prometheus:
     image: prom/prometheus:latest
     container_name: sentinel-ops-prometheus
@@ -34,10 +35,13 @@ services:
     container_name: sentinel-ops-grafana
     ports:
       - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
     networks:
       - sentinel-net
     depends_on:
       - prometheus
+
 # NOTE for P4: add your prometheus/grafana services to this same file,
 # pointing the Prometheus scrape target at payment-gateway:5000/metrics
 # so the whole stack comes up together for Integration Gate #1.
@@ -45,3 +49,6 @@ services:
 networks:
   sentinel-net:
     driver: bridge
+
+volumes:
+  grafana-storage:

@@ -1,0 +1,63 @@
+#cloud-config
+# Sentinel-Ops - VM initialization
+# Runs automatically on first boot, before anyone logs in.
+
+package_update: true
+package_upgrade: false
+
+packages:
+  - git
+  - curl
+  - jq
+
+write_files:
+  # Deploy key so the VM can clone the private repo (read-only)
+  - path: /root/.ssh/deploy_key
+    permissions: '0600'
+    owner: root:root
+    content: |
+      ${deploy_key}
+
+  # Tell git to use that key, and trust github.com
+  - path: /root/.ssh/config
+    permissions: '0600'
+    owner: root:root
+    content: |
+      Host github.com
+        IdentityFile /root/.ssh/deploy_key
+        StrictHostKeyChecking accept-new
+        UserKnownHostsFile /root/.ssh/known_hosts
+
+runcmd:
+  - |
+    set -euo pipefail
+    exec > >(tee -a /var/log/sentinel-init.log) 2>&1
+    echo "=== Sentinel-Ops init started: $(date) ==="
+
+    # 1) Clone the repo
+    if [ ! -d /opt/sentinel-ops ]; then
+      git clone git@github.com:Yara-Gimu/Sentinel-Ops.git /opt/sentinel-ops
+    fi
+    cd /opt/sentinel-ops
+
+    # 2) Install Docker and dependencies
+    chmod +x scripts/*.sh
+    ./scripts/install.sh
+
+    # 3) Bring the stack up
+    docker compose up -d
+
+    # 4) Wait for services, then verify
+    for i in $(seq 1 30); do
+      if ./scripts/healthcheck.sh >/dev/null 2>&1; then
+        echo "=== Stack healthy after $((i*10))s ==="
+        ./scripts/healthcheck.sh
+        echo "=== Sentinel-Ops init finished: $(date) ==="
+        exit 0
+      fi
+      sleep 10
+    done
+
+    echo "=== Health check did not pass within 5 minutes ==="
+    ./scripts/healthcheck.sh || true
+    exit 1

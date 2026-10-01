@@ -1,4 +1,4 @@
-# Sentinel-Ops – Mock Payment Gateway (P3, Week 1)
+  # Sentinel-Ops – Mock Payment Gateway (P3, Week 1)
 
 Part of the [Sentinel-Ops](../README.md) observability platform. This service is the
 **showcase/load-testing application** referenced in the main project README — it is not
@@ -18,17 +18,17 @@ docker compose up -d --build
 > `docker-compose-plugin` (Compose V2), so `docker compose` (no hyphen) is the
 > correct and only supported syntax — matches the root project README's convention.
 
-Service is running: `http://localhost:5000`
+الخدمة هتشتغل على: `http://localhost:5000`
 
-## Endpoints 
+## نقاط النهاية (Endpoints)
 
-| Endpoint      | Method | Description                                      |
+| Endpoint      | Method | الوصف                                      |
 |---------------|--------|---------------------------------------------|
-| `/health`     | GET    | Health chech                       |
-| `/api/pay`    | POST   | Simulating a payment transaction(random success/failure)          |
-| `/metrics`    | GET    | For Prometheus scraping (P4)             |
+| `/health`     | GET    | فحص أن الخدمة شغالة                        |
+| `/api/pay`    | POST   | محاكاة عملية دفع (نجاح/فشل عشوائي)          |
+| `/metrics`    | GET    | مقاييس Prometheus (لاستخدام P4)             |
 
-### Example test
+### مثال اختبار
 ```bash
 curl http://localhost:5000/health
 
@@ -39,7 +39,7 @@ curl -X POST http://localhost:5000/api/pay \
 curl http://localhost:5000/metrics
 ```
 
-## Available metrics P4 (Prometheus scrape target: `payment-gateway:5000`)
+## المقاييس المتاحة لـ P4 (Prometheus scrape target: `payment-gateway:5000`)
 - `payment_requests_total{status="success|failed"}`
 - `payment_request_duration_seconds` (histogram)
 - `orders_successful_total`
@@ -56,12 +56,10 @@ curl http://localhost:5000/metrics
   doesn't conflict with anything already planned.
 - **Docker/Compose version:** verified against `scripts/install.sh` — Compose V2
   plugin only, `docker compose` syntax confirmed correct. ✅
-- **NSG / firewall rules:** confirmed with `terraform/main.tf` — no NSG resource
-  exists yet (only Resource Group, VNet, Subnet). Port `5000` is neither blocked nor
-  explicitly allowed. **Action needed:** decide with the team whether the API should
-  stay internal-only (reachable just by Prometheus on the same Docker network — no NSG
-  change needed) or be exposed externally (e.g. for a load simulator running off-VM),
-  in which case P1 needs to add an NSG rule for port `5000` in Week 2.
+- **NSG / firewall rules:** confirmed with `terraform/main.tf` and the team's decision
+  — port `5000` stays **internal-only**. It is reachable only by Prometheus on the
+  same VM/Docker network; it is intentionally **not** exposed externally, so no NSG
+  rule is needed. ✅ Resolved.
 
 ## Next Step (coordination with P4)
 Ask P4 to add the Prometheus service to this same `docker-compose.yml`, pointing the
@@ -73,6 +71,49 @@ confirm Prometheus is actively scraping — this is exactly what **Integration G
 - [x] Build the mock payment API
 - [x] Set up Dockerfile + docker-compose for the application
 - [x] Align compose command and network naming with the team's root README
-- [ ] Test the endpoints locally (`curl` or Postman)
-- [ ] Coordinate with P4 to merge Prometheus into the same compose stack
-- [ ] Confirm `/metrics` is reachable before Sept 25 (Integration Gate #1)
+- [x] Test the endpoints locally (`curl` or Postman)
+- [x] Coordinate with P4 to merge Prometheus into the same compose stack
+- [x] Confirm `/metrics` is reachable before Sept 25 (Integration Gate #1)
+
+---
+
+## Week 2 – Cloud Integration (Sept 27 – Oct 3)
+
+Per the plan, P3 is grouped with P4 under **Observability Team** for this week, with
+the stated task: *"Connect live Grafana to the hosted Prometheus data source
+endpoint."* That specific wiring is P4's work. P3's concrete contribution is making
+sure the payment-gateway container is **cloud-ready** before that connection happens,
+and that it survives **Integration Gate #2 (Oct 2 – "Rebuild from Scratch" Test)**.
+
+### P3 tasks this week
+1. Confirm the `payment-gateway` service comes up cleanly on the Azure VM (not just
+   locally) once P1 has provisioned infrastructure and P2 has migrated the Docker
+   setup — no hardcoded `localhost`-only assumptions in the app.
+2. Confirm `/metrics` is reachable from Prometheus running on the same VM/network, so
+   P4 can point Grafana at it.
+3. Make sure `docker compose up -d --build` can be re-run automatically after a full
+   `terraform destroy` + `terraform apply` cycle with **zero manual steps** — this is
+   exactly what Integration Gate #2 tests.
+
+### Post-deployment verification
+The service is **internal-only** (port `5000` is not exposed to the public internet
+by design — only Prometheus on the same VM reaches it). Run the check **from inside
+the Azure VM itself** (SSH in first), using `localhost`:
+```bash
+ssh <user>@<vm-ip>
+cd Sentinel-Ops
+./scripts/verify-deployment.sh
+```
+This checks that `/health` responds, `/metrics` exposes the expected Prometheus
+metric names, and sends one sample transaction so Prometheus/Grafana have live data
+to show immediately during the integration test. `SERVICE_URL` defaults to
+`http://localhost:5000`, which is correct here — do **not** point it at the VM's
+public IP, since the port is intentionally not reachable from outside.
+
+### Checklist – Week 2 (P3)
+- [ ] Re-run `docker compose up -d --build` on the Azure VM once P1/P2 finish provisioning
+- [ ] SSH into the VM and run `scripts/verify-deployment.sh` against `localhost`
+- [ ] Confirm with P4 that Prometheus (on the VM) can scrape `payment-gateway:5000/metrics`
+- [ ] Participate in Integration Gate #2 (Oct 2): verify the service comes back up
+      automatically after `terraform destroy` + `terraform apply`
+- [x] Port 5000 confirmed internal-only — no NSG rule needed 

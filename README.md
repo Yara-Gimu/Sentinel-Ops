@@ -91,3 +91,34 @@ terraform apply \
 ```
 
 After deployment, run `sudo ./scripts/install.sh` on the VM and start the Docker Compose stack from the project directory.
+
+## Mock Payment Gateway (App Service)
+Part of the Sentinel-Ops observability platform. This service is the showcase/load-testing application referenced in the project. It is a lightweight target for Prometheus to scrape and for the load simulator to stress-test.
+
+### Quick Start
+Ensure you are in the project root directory, then start the service:
+```bash
+docker compose up -d --build
+
+
+Note: The service runs on http://localhost:5000 and joins the sentinel-net bridge network.API EndpointsEndpointMethodDescription/healthGETCheck that the service is running/api/payPOSTSimulate a payment transaction (random success/failure)/metricsGETPrometheus metrics endpointTest Examples (Localhost only)
+
+# Health check
+curl http://localhost:5000/health
+
+# Simulate Payment
+curl -X POST http://localhost:5000/api/pay \
+  -H "Content-Type: application/json" \
+  -d '{"amount": 120.50, "currency": "USD"}'
+
+# View Metrics
+curl http://localhost:5000/metrics
+
+Post-Deployment Verification
+The service is internal-only (port 5000 is not exposed to the public internet by design — only Prometheus on the same VM reaches it). Run the check from inside the Azure VM itself using SSH:
+
+ssh <user>@<vm-ip>
+cd Sentinel-Ops
+./scripts/verify-deployment.sh
+
+

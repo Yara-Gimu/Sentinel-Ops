@@ -7,7 +7,7 @@ This procedure completely destroys and rebuilds the Azure infrastructure from sc
 Execute this when a fresh state is required or to stop billing charges:
 ```bash
 cd terraform
-terraform destroy -var="admin_password=YOUR_SECURE_PASS" -var="ssh_source_address_prefix=YOUR_IP/32" -auto-approve
+terraform destroy -var='admin_password=YOUR_SECURE_PASS' -var='ssh_source_address_prefix=["YOUR_IP/32"]' -auto-approve
 ```
 
 *Note: This will delete the VM, NSG, VNet, and all associated resources permanently.*
@@ -20,7 +20,7 @@ Bash
 ```
 cd terraform
 terraform init
-terraform apply -var="admin_password=YOUR_SECURE_PASS" -var="ssh_source_address_prefix=YOUR_IP/32" -auto-approve
+terraform apply -var='admin_password=YOUR_SECURE_PASS' -var='ssh_source_address_prefix=["YOUR_IP/32"]' -auto-approve
 ```
 
 ## 2. Infrastructure Health Checks
@@ -75,6 +75,6 @@ curl -I http://localhost:9090/-/healthy
 ## 3. Security Lockdown Procedures (Production Ready)
 Before final sign-off, ensure the following security measures are enforced via Terraform.
 
-1. **SSH Access Validation:** Ensure the `ssh_source_address_prefix` in `terraform.tfvars` is explicitly set to the Administrator's IP address (e.g., `64.137.196.213/32`) and never `*`.
+1. **SSH Access Validation:** Ensure the `ssh_source_address_prefix` list in `terraform.tfvars` contains only trusted administrator IP addresses (e.g., `64.137.196.213/32`) and never `*`.
 2. **Internal App Isolation:** Ensure no NSG rules expose Port 5000 to the internet. The Payment Gateway must only be accessible locally by Prometheus.
 3. **Grafana Exposure:** Expose Port 3000 in the NSG only to trusted administrative IPs for dashboard viewing.

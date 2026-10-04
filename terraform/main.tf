@@ -49,7 +49,7 @@ resource "azurerm_network_security_group" "sentinel_nsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefix      = var.ssh_source_address_prefix
+    source_address_prefixes    = var.ssh_source_address_prefix
     destination_address_prefix = "*"
   }
 
@@ -61,7 +61,7 @@ resource "azurerm_network_security_group" "sentinel_nsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "3000"
-    source_address_prefix      = var.ssh_source_address_prefix
+    source_address_prefixes    = var.ssh_source_address_prefix
     destination_address_prefix = "*"
   }
 }

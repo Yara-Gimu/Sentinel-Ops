@@ -23,6 +23,6 @@ variable "admin_password" {
 }
 
 variable "ssh_source_address_prefix" {
-  description = "CIDR allowed to access SSH. Replace the default with the team's public IP."
-  type        = string
+  description = "CIDRs allowed to access SSH and Grafana."
+  type        = list(string)
 }

@@ -1,4 +1,4 @@
-  # Sentinel-Ops – Mock Payment Gateway (P3, Week 1)
+# Sentinel-Ops – Mock Payment Gateway (P3, Week 1)
 
 Part of the [Sentinel-Ops](../README.md) observability platform. This service is the
 **showcase/load-testing application** referenced in the main project README — it is not
@@ -18,17 +18,17 @@ docker compose up -d --build
 > `docker-compose-plugin` (Compose V2), so `docker compose` (no hyphen) is the
 > correct and only supported syntax — matches the root project README's convention.
 
-الخدمة هتشتغل على: `http://localhost:5000`
+The service will run at: `http://localhost:5000`
 
-## نقاط النهاية (Endpoints)
+## Endpoints
 
-| Endpoint      | Method | الوصف                                      |
-|---------------|--------|---------------------------------------------|
-| `/health`     | GET    | فحص أن الخدمة شغالة                        |
-| `/api/pay`    | POST   | محاكاة عملية دفع (نجاح/فشل عشوائي)          |
-| `/metrics`    | GET    | مقاييس Prometheus (لاستخدام P4)             |
+| Endpoint      | Method | Description                                  |
+|---------------|--------|-----------------------------------------------|
+| `/health`     | GET    | Liveness check — confirms the service is up   |
+| `/api/pay`    | POST   | Simulates a payment (random success/failure)  |
+| `/metrics`    | GET    | Prometheus metrics (used by P4)               |
 
-### مثال اختبار
+### Test example
 ```bash
 curl http://localhost:5000/health
 
@@ -39,7 +39,7 @@ curl -X POST http://localhost:5000/api/pay \
 curl http://localhost:5000/metrics
 ```
 
-## المقاييس المتاحة لـ P4 (Prometheus scrape target: `payment-gateway:5000`)
+## Metrics available for P4 (Prometheus scrape target: `payment-gateway:5000`)
 - `payment_requests_total{status="success|failed"}`
 - `payment_request_duration_seconds` (histogram)
 - `orders_successful_total`
@@ -116,4 +116,54 @@ public IP, since the port is intentionally not reachable from outside.
 - [ ] Confirm with P4 that Prometheus (on the VM) can scrape `payment-gateway:5000/metrics`
 - [ ] Participate in Integration Gate #2 (Oct 2): verify the service comes back up
       automatically after `terraform destroy` + `terraform apply`
-- [x] Port 5000 confirmed internal-only — no NSG rule needed 
+- [x] Port 5000 confirmed internal-only — no NSG rule needed
+
+---
+
+## Week 3 – Load Simulation & Final Demo (Oct 4 – Oct 10)
+
+P3's role this week: **Testing Lead**. Task per the plan:
+
+> *"Develop the Live Load Simulation script (Python/Bash) to flood the showcase
+> payment gateway with mock transaction traffic."*
+
+This load feeds P4's Grafana dashboards (Infrastructure Vitals + Application/Business
+Metrics) and triggers P4's Alertmanager thresholds, so it directly powers
+**Integration Gate #3 (Oct 8 – Final Demo Rehearsal)**.
+
+### Scripts provided
+| Script | Language | When to use |
+|---|---|---|
+| `scripts/load_simulator.py` | Python | Primary — concurrent workers, live stats, latency tracking |
+| `scripts/load_simulator.sh` | Bash | Fallback if Python/requests isn't available on the VM |
+
+Both send repeated mock transactions to `/api/pay`, so both success and failure paths
+fire (the app has a built-in ~10% simulated failure rate), which is what makes the
+"Transaction Failure Rates" panel and Alertmanager thresholds meaningful.
+
+### Running it (on the Azure VM, since the API is internal-only)
+```bash
+ssh <user>@<vm-ip>
+cd Sentinel-Ops
+
+# Python version (install requests once):
+pip install -r scripts/requirements-loadtest.txt --break-system-packages
+python3 scripts/load_simulator.py --url http://localhost:5000 --rate 10 --duration 120 --workers 20
+
+# Or the Bash fallback:
+chmod +x scripts/load_simulator.sh
+./scripts/load_simulator.sh http://localhost:5000 120 10
+```
+- `--rate` / 3rd bash arg: target requests per second (raise this for a more dramatic
+  demo spike).
+- `--duration` / 2nd bash arg: how long to run, in seconds.
+- Both print live stats every couple seconds and a final summary (total, success,
+  failed, latency).
+
+### Checklist – Week 3 (P3)
+- [x] Build the load simulation script (Python primary, Bash fallback)
+- [ ] Run it on the VM and confirm Grafana panels move in real time (coordinate with P4)
+- [ ] Confirm Alertmanager fires when thresholds are crossed (raise `--rate` if needed
+      to push CPU or failure-rate metrics past P4's configured limits)
+- [ ] Rehearse the exact command + parameters to use live during Integration Gate #3
+      (Oct 8) so the demo runs smoothly

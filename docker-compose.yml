@@ -38,15 +38,35 @@ services:
     networks:
       - sentinel-net
 
-# NOTE for P4: add your prometheus/grafana services to this same file,
-# pointing the Prometheus scrape targets at:
-#   - payment-gateway:5000/metrics  (application metrics)
-#   - node-exporter:9100/metrics    (infrastructure/host metrics)
-# so the whole stack comes up together for Integration Gate #1.
-# Keep the network name below consistent with whatever P4 uses for
-# prometheus/grafana so all containers can reach each other.
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: sentinel-ops-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+      - sentinel-net
+    depends_on:
+      - payment-gateway
+      - node-exporter
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: sentinel-ops-grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    networks:
+      - sentinel-net
+    depends_on:
+      - prometheus
 
 networks:
   sentinel-net:
     name: sentinel-net
     driver: bridge
+
+volumes:
+  grafana-storage:

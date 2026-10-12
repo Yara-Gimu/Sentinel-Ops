@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   payment-gateway:
     build:
@@ -70,7 +68,9 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - grafana-storage:/var/lib/grafana
+      - grafana-provisioning-storage:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
     networks:
       - sentinel-net
     depends_on:
@@ -83,3 +83,4 @@ networks:
 
 volumes:
   grafana-storage:
+  grafana-provisioning-storage:

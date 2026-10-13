@@ -1,0 +1,769 @@
+{
+    "version":  1,
+    "time":  {
+                 "to":  "now",
+                 "from":  "now-6h"
+             },
+    "templating":  {
+                       "list":  [
+
+                                ]
+                   },
+    "uid":  "adbqd59",
+    "title":  "Sentinel Ops Monitoring",
+    "tags":  [
+
+             ],
+    "annotations":  {
+                        "list":  [
+
+                                 ]
+                    },
+    "links":  [
+
+              ],
+    "timezone":  "browser",
+    "refresh":  "",
+    "schemaVersion":  39,
+    "editable":  true,
+    "panels":  [
+                   {
+                       "options":  {
+                                       "colorMode":  "value",
+                                       "graphMode":  "area",
+                                       "justifyMode":  "auto",
+                                       "orientation":  "auto",
+                                       "percentChangeColorMode":  "standard",
+                                       "reduceOptions":  {
+                                                             "calcs":  [
+                                                                           "lastNotNull"
+                                                                       ],
+                                                             "fields":  "",
+                                                             "values":  false
+                                                         },
+                                       "showPercentChange":  false,
+                                       "textMode":  "auto",
+                                       "wideLayout":  true
+                                   },
+                       "id":  1,
+                       "type":  "stat",
+                       "transformations":  [
+
+                                           ],
+                       "description":  "",
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "dfzfudcc9a4u8a"
+                                      },
+                       "fieldConfig":  {
+                                           "defaults":  {
+                                                            "color":  {
+                                                                          "mode":  "thresholds"
+                                                                      },
+                                                            "thresholds":  {
+                                                                               "mode":  "absolute",
+                                                                               "steps":  [
+                                                                                             {
+                                                                                                 "color":  "green",
+                                                                                                 "value":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "color":  "red",
+                                                                                                 "value":  80
+                                                                                             }
+                                                                                         ]
+                                                                           }
+                                                        },
+                                           "overrides":  [
+
+                                                         ]
+                                       },
+                       "targets":  [
+                                       {
+                                           "legendFormat":  "__auto",
+                                           "expr":  "orders_successful_total",
+                                           "refId":  "A",
+                                           "datasource":  {
+                                                              "type":  "prometheus",
+                                                              "uid":  "dfzfudcc9a4u8a"
+                                                          },
+                                           "editorMode":  "builder",
+                                           "hide":  false,
+                                           "range":  true
+                                       }
+                                   ],
+                       "title":  "Successful Orders",
+                       "gridPos":  {
+                                       "y":  0,
+                                       "w":  12,
+                                       "x":  0,
+                                       "h":  8
+                                   }
+                   },
+                   {
+                       "options":  {
+                                       "colorMode":  "value",
+                                       "graphMode":  "area",
+                                       "justifyMode":  "auto",
+                                       "orientation":  "auto",
+                                       "percentChangeColorMode":  "standard",
+                                       "reduceOptions":  {
+                                                             "calcs":  [
+                                                                           "lastNotNull"
+                                                                       ],
+                                                             "fields":  "",
+                                                             "values":  false
+                                                         },
+                                       "showPercentChange":  false,
+                                       "textMode":  "auto",
+                                       "wideLayout":  true
+                                   },
+                       "id":  2,
+                       "type":  "stat",
+                       "transformations":  [
+
+                                           ],
+                       "description":  "",
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "dfzfudcc9a4u8a"
+                                      },
+                       "fieldConfig":  {
+                                           "defaults":  {
+                                                            "color":  {
+                                                                          "mode":  "thresholds"
+                                                                      },
+                                                            "thresholds":  {
+                                                                               "mode":  "absolute",
+                                                                               "steps":  [
+                                                                                             {
+                                                                                                 "color":  "green",
+                                                                                                 "value":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "color":  "red",
+                                                                                                 "value":  80
+                                                                                             }
+                                                                                         ]
+                                                                           },
+                                                            "unit":  "s"
+                                                        },
+                                           "overrides":  [
+
+                                                         ]
+                                       },
+                       "targets":  [
+                                       {
+                                           "legendFormat":  "__auto",
+                                           "expr":  "rate(payment_request_duration_seconds_sum[5m]) / rate(payment_request_duration_seconds_count[5m])",
+                                           "refId":  "A",
+                                           "datasource":  {
+                                                              "type":  "prometheus",
+                                                              "uid":  "dfzfudcc9a4u8a"
+                                                          },
+                                           "editorMode":  "code",
+                                           "hide":  false,
+                                           "range":  true
+                                       }
+                                   ],
+                       "title":  "Payment Gateway Latency",
+                       "gridPos":  {
+                                       "y":  0,
+                                       "w":  12,
+                                       "x":  12,
+                                       "h":  8
+                                   }
+                   },
+                   {
+                       "options":  {
+                                       "colorMode":  "value",
+                                       "graphMode":  "area",
+                                       "justifyMode":  "auto",
+                                       "orientation":  "auto",
+                                       "percentChangeColorMode":  "standard",
+                                       "reduceOptions":  {
+                                                             "calcs":  [
+                                                                           "lastNotNull"
+                                                                       ],
+                                                             "fields":  "",
+                                                             "values":  false
+                                                         },
+                                       "showPercentChange":  false,
+                                       "textMode":  "auto",
+                                       "wideLayout":  true
+                                   },
+                       "id":  3,
+                       "type":  "stat",
+                       "transformations":  [
+
+                                           ],
+                       "description":  "",
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "dfzfudcc9a4u8a"
+                                      },
+                       "fieldConfig":  {
+                                           "defaults":  {
+                                                            "color":  {
+                                                                          "mode":  "thresholds"
+                                                                      },
+                                                            "thresholds":  {
+                                                                               "mode":  "absolute",
+                                                                               "steps":  [
+                                                                                             {
+                                                                                                 "color":  "green",
+                                                                                                 "value":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "color":  "red",
+                                                                                                 "value":  80
+                                                                                             }
+                                                                                         ]
+                                                                           }
+                                                        },
+                                           "overrides":  [
+
+                                                         ]
+                                       },
+                       "targets":  [
+                                       {
+                                           "legendFormat":  "__auto",
+                                           "expr":  "sum(transaction_failures_total)",
+                                           "refId":  "A",
+                                           "datasource":  {
+                                                              "type":  "prometheus",
+                                                              "uid":  "dfzfudcc9a4u8a"
+                                                          },
+                                           "editorMode":  "code",
+                                           "hide":  false,
+                                           "range":  true
+                                       }
+                                   ],
+                       "title":  "Failed Transactions",
+                       "gridPos":  {
+                                       "y":  8,
+                                       "w":  12,
+                                       "x":  0,
+                                       "h":  8
+                                   }
+                   },
+                   {
+                       "options":  {
+                                       "colorMode":  "value",
+                                       "graphMode":  "area",
+                                       "justifyMode":  "auto",
+                                       "orientation":  "auto",
+                                       "percentChangeColorMode":  "standard",
+                                       "reduceOptions":  {
+                                                             "calcs":  [
+                                                                           "lastNotNull"
+                                                                       ],
+                                                             "fields":  "",
+                                                             "values":  false
+                                                         },
+                                       "showPercentChange":  false,
+                                       "textMode":  "auto",
+                                       "wideLayout":  true
+                                   },
+                       "id":  4,
+                       "type":  "stat",
+                       "transformations":  [
+
+                                           ],
+                       "description":  "",
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "dfzfudcc9a4u8a"
+                                      },
+                       "fieldConfig":  {
+                                           "defaults":  {
+                                                            "color":  {
+                                                                          "mode":  "thresholds"
+                                                                      },
+                                                            "thresholds":  {
+                                                                               "mode":  "absolute",
+                                                                               "steps":  [
+                                                                                             {
+                                                                                                 "color":  "green",
+                                                                                                 "value":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "color":  "red",
+                                                                                                 "value":  80
+                                                                                             }
+                                                                                         ]
+                                                                           },
+                                                            "unit":  "bytes"
+                                                        },
+                                           "overrides":  [
+
+                                                         ]
+                                       },
+                       "targets":  [
+                                       {
+                                           "legendFormat":  "__auto",
+                                           "expr":  "process_resident_memory_bytes",
+                                           "refId":  "A",
+                                           "datasource":  {
+                                                              "type":  "prometheus",
+                                                              "uid":  "dfzfudcc9a4u8a"
+                                                          },
+                                           "editorMode":  "builder",
+                                           "hide":  false,
+                                           "range":  true
+                                       }
+                                   ],
+                       "title":  "Payment Gateway Memory Usage",
+                       "gridPos":  {
+                                       "y":  8,
+                                       "w":  12,
+                                       "x":  12,
+                                       "h":  8
+                                   }
+                   },
+                   {
+                       "options":  {
+                                       "colorMode":  "value",
+                                       "graphMode":  "area",
+                                       "justifyMode":  "auto",
+                                       "orientation":  "auto",
+                                       "percentChangeColorMode":  "standard",
+                                       "reduceOptions":  {
+                                                             "calcs":  [
+                                                                           "lastNotNull"
+                                                                       ],
+                                                             "fields":  "",
+                                                             "values":  false
+                                                         },
+                                       "showPercentChange":  false,
+                                       "textMode":  "auto",
+                                       "wideLayout":  true
+                                   },
+                       "id":  5,
+                       "type":  "stat",
+                       "transformations":  [
+
+                                           ],
+                       "description":  "",
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "dfzfudcc9a4u8a"
+                                      },
+                       "fieldConfig":  {
+                                           "defaults":  {
+                                                            "color":  {
+                                                                          "mode":  "thresholds"
+                                                                      },
+                                                            "thresholds":  {
+                                                                               "mode":  "absolute",
+                                                                               "steps":  [
+                                                                                             {
+                                                                                                 "color":  "green",
+                                                                                                 "value":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "color":  "red",
+                                                                                                 "value":  80
+                                                                                             }
+                                                                                         ]
+                                                                           },
+                                                            "unit":  "percent"
+                                                        },
+                                           "overrides":  [
+
+                                                         ]
+                                       },
+                       "targets":  [
+                                       {
+                                           "legendFormat":  "__auto",
+                                           "expr":  "rate(process_cpu_seconds_total[5m]) * 100",
+                                           "refId":  "A",
+                                           "datasource":  {
+                                                              "type":  "prometheus",
+                                                              "uid":  "dfzfudcc9a4u8a"
+                                                          },
+                                           "editorMode":  "code",
+                                           "hide":  false,
+                                           "range":  true
+                                       }
+                                   ],
+                       "title":  "Payment Gateway CPU Usage",
+                       "gridPos":  {
+                                       "y":  16,
+                                       "w":  12,
+                                       "x":  0,
+                                       "h":  8
+                                   }
+                   },
+                   {
+                       "options":  {
+                                       "colorMode":  "value",
+                                       "graphMode":  "area",
+                                       "justifyMode":  "auto",
+                                       "orientation":  "auto",
+                                       "percentChangeColorMode":  "standard",
+                                       "reduceOptions":  {
+                                                             "calcs":  [
+                                                                           "lastNotNull"
+                                                                       ],
+                                                             "fields":  "",
+                                                             "values":  false
+                                                         },
+                                       "showPercentChange":  false,
+                                       "textMode":  "auto",
+                                       "wideLayout":  true
+                                   },
+                       "id":  6,
+                       "type":  "stat",
+                       "transformations":  [
+
+                                           ],
+                       "description":  "",
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "dfzfudcc9a4u8a"
+                                      },
+                       "fieldConfig":  {
+                                           "defaults":  {
+                                                            "color":  {
+                                                                          "mode":  "thresholds"
+                                                                      },
+                                                            "thresholds":  {
+                                                                               "mode":  "absolute",
+                                                                               "steps":  [
+                                                                                             {
+                                                                                                 "color":  "green",
+                                                                                                 "value":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "color":  "red",
+                                                                                                 "value":  80
+                                                                                             }
+                                                                                         ]
+                                                                           },
+                                                            "unit":  "percent"
+                                                        },
+                                           "overrides":  [
+
+                                                         ]
+                                       },
+                       "targets":  [
+                                       {
+                                           "legendFormat":  "__auto",
+                                           "expr":  "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\",job=\"node-exporter\"}[5m])) * 100)",
+                                           "refId":  "A",
+                                           "datasource":  {
+                                                              "type":  "prometheus",
+                                                              "uid":  "dfzfudcc9a4u8a"
+                                                          },
+                                           "editorMode":  "code",
+                                           "hide":  false,
+                                           "range":  true
+                                       }
+                                   ],
+                       "title":  "Host CPU Usage",
+                       "gridPos":  {
+                                       "y":  16,
+                                       "w":  12,
+                                       "x":  12,
+                                       "h":  8
+                                   }
+                   },
+                   {
+                       "options":  {
+                                       "colorMode":  "value",
+                                       "graphMode":  "area",
+                                       "justifyMode":  "auto",
+                                       "orientation":  "auto",
+                                       "percentChangeColorMode":  "standard",
+                                       "reduceOptions":  {
+                                                             "calcs":  [
+                                                                           "lastNotNull"
+                                                                       ],
+                                                             "fields":  "",
+                                                             "values":  false
+                                                         },
+                                       "showPercentChange":  false,
+                                       "textMode":  "auto",
+                                       "wideLayout":  true
+                                   },
+                       "id":  7,
+                       "type":  "stat",
+                       "transformations":  [
+
+                                           ],
+                       "description":  "",
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "dfzfudcc9a4u8a"
+                                      },
+                       "fieldConfig":  {
+                                           "defaults":  {
+                                                            "color":  {
+                                                                          "mode":  "thresholds"
+                                                                      },
+                                                            "thresholds":  {
+                                                                               "mode":  "absolute",
+                                                                               "steps":  [
+                                                                                             {
+                                                                                                 "color":  "green",
+                                                                                                 "value":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "color":  "red",
+                                                                                                 "value":  80
+                                                                                             }
+                                                                                         ]
+                                                                           },
+                                                            "unit":  "percent"
+                                                        },
+                                           "overrides":  [
+
+                                                         ]
+                                       },
+                       "targets":  [
+                                       {
+                                           "legendFormat":  "__auto",
+                                           "expr":  "(1 - (node_memory_MemAvailable_bytes{job=\"node-exporter\"} / node_memory_MemTotal_bytes{job=\"node-exporter\"})) * 100",
+                                           "refId":  "A",
+                                           "datasource":  {
+                                                              "type":  "prometheus",
+                                                              "uid":  "dfzfudcc9a4u8a"
+                                                          },
+                                           "editorMode":  "code",
+                                           "hide":  false,
+                                           "range":  true
+                                       }
+                                   ],
+                       "title":  "Memory Usage",
+                       "gridPos":  {
+                                       "y":  24,
+                                       "w":  12,
+                                       "x":  0,
+                                       "h":  8
+                                   }
+                   },
+                   {
+                       "options":  {
+                                       "colorMode":  "value",
+                                       "graphMode":  "area",
+                                       "justifyMode":  "auto",
+                                       "orientation":  "auto",
+                                       "percentChangeColorMode":  "standard",
+                                       "reduceOptions":  {
+                                                             "calcs":  [
+                                                                           "lastNotNull"
+                                                                       ],
+                                                             "fields":  "",
+                                                             "values":  false
+                                                         },
+                                       "showPercentChange":  false,
+                                       "textMode":  "auto",
+                                       "wideLayout":  true
+                                   },
+                       "id":  8,
+                       "type":  "stat",
+                       "transformations":  [
+
+                                           ],
+                       "description":  "",
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "dfzfudcc9a4u8a"
+                                      },
+                       "fieldConfig":  {
+                                           "defaults":  {
+                                                            "color":  {
+                                                                          "mode":  "thresholds"
+                                                                      },
+                                                            "thresholds":  {
+                                                                               "mode":  "absolute",
+                                                                               "steps":  [
+                                                                                             {
+                                                                                                 "color":  "green",
+                                                                                                 "value":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "color":  "red",
+                                                                                                 "value":  80
+                                                                                             }
+                                                                                         ]
+                                                                           },
+                                                            "unit":  "percent"
+                                                        },
+                                           "overrides":  [
+
+                                                         ]
+                                       },
+                       "targets":  [
+                                       {
+                                           "legendFormat":  "__auto",
+                                           "expr":  "100 * max(\r\n  (node_filesystem_size_bytes{job=\"node-exporter\",fstype!~\"tmpfs|squashfs\"}\r\n  - node_filesystem_avail_bytes{job=\"node-exporter\",fstype!~\"tmpfs|squashfs\"})\r\n  /\r\n  node_filesystem_size_bytes{job=\"node-exporter\",fstype!~\"tmpfs|squashfs\"}\r\n)",
+                                           "refId":  "A",
+                                           "datasource":  {
+                                                              "type":  "prometheus",
+                                                              "uid":  "dfzfudcc9a4u8a"
+                                                          },
+                                           "editorMode":  "code",
+                                           "hide":  false,
+                                           "range":  true
+                                       }
+                                   ],
+                       "title":  "Host Disk Usage",
+                       "gridPos":  {
+                                       "y":  24,
+                                       "w":  12,
+                                       "x":  12,
+                                       "h":  8
+                                   }
+                   },
+                   {
+                       "options":  {
+                                       "colorMode":  "value",
+                                       "graphMode":  "area",
+                                       "justifyMode":  "auto",
+                                       "orientation":  "auto",
+                                       "percentChangeColorMode":  "standard",
+                                       "reduceOptions":  {
+                                                             "calcs":  [
+                                                                           "lastNotNull"
+                                                                       ],
+                                                             "fields":  "",
+                                                             "values":  false
+                                                         },
+                                       "showPercentChange":  false,
+                                       "textMode":  "auto",
+                                       "wideLayout":  true
+                                   },
+                       "id":  9,
+                       "type":  "stat",
+                       "transformations":  [
+
+                                           ],
+                       "description":  "",
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "dfzfudcc9a4u8a"
+                                      },
+                       "fieldConfig":  {
+                                           "defaults":  {
+                                                            "color":  {
+                                                                          "mode":  "thresholds"
+                                                                      },
+                                                            "thresholds":  {
+                                                                               "mode":  "absolute",
+                                                                               "steps":  [
+                                                                                             {
+                                                                                                 "color":  "green",
+                                                                                                 "value":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "color":  "red",
+                                                                                                 "value":  80
+                                                                                             }
+                                                                                         ]
+                                                                           },
+                                                            "unit":  "decbytes"
+                                                        },
+                                           "overrides":  [
+
+                                                         ]
+                                       },
+                       "targets":  [
+                                       {
+                                           "legendFormat":  "__auto",
+                                           "expr":  "sum(rate(node_network_receive_bytes_total{job=\"node-exporter\",device!=\"lo\"}[5m]))\r\n+\r\nsum(rate(node_network_transmit_bytes_total{job=\"node-exporter\",device!=\"lo\"}[5m]))",
+                                           "refId":  "A",
+                                           "datasource":  {
+                                                              "type":  "prometheus",
+                                                              "uid":  "dfzfudcc9a4u8a"
+                                                          },
+                                           "editorMode":  "code",
+                                           "hide":  false,
+                                           "range":  true
+                                       }
+                                   ],
+                       "title":  "Host Network Throughput",
+                       "gridPos":  {
+                                       "y":  32,
+                                       "w":  12,
+                                       "x":  0,
+                                       "h":  8
+                                   }
+                   },
+                   {
+                       "options":  {
+                                       "colorMode":  "value",
+                                       "graphMode":  "area",
+                                       "justifyMode":  "auto",
+                                       "orientation":  "auto",
+                                       "percentChangeColorMode":  "standard",
+                                       "reduceOptions":  {
+                                                             "calcs":  [
+                                                                           "lastNotNull"
+                                                                       ],
+                                                             "fields":  "",
+                                                             "values":  false
+                                                         },
+                                       "showPercentChange":  false,
+                                       "textMode":  "auto",
+                                       "wideLayout":  true
+                                   },
+                       "id":  10,
+                       "type":  "stat",
+                       "transformations":  [
+
+                                           ],
+                       "description":  "",
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "dfzfudcc9a4u8a"
+                                      },
+                       "fieldConfig":  {
+                                           "defaults":  {
+                                                            "color":  {
+                                                                          "mode":  "thresholds"
+                                                                      },
+                                                            "thresholds":  {
+                                                                               "mode":  "absolute",
+                                                                               "steps":  [
+                                                                                             {
+                                                                                                 "color":  "green",
+                                                                                                 "value":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "color":  "red",
+                                                                                                 "value":  80
+                                                                                             }
+                                                                                         ]
+                                                                           },
+                                                            "unit":  "s"
+                                                        },
+                                           "overrides":  [
+
+                                                         ]
+                                       },
+                       "targets":  [
+                                       {
+                                           "legendFormat":  "__auto",
+                                           "expr":  "rate(payment_request_duration_seconds_sum[5m])\r\n/\r\nrate(payment_request_duration_seconds_count[5m])",
+                                           "refId":  "A",
+                                           "datasource":  {
+                                                              "type":  "prometheus",
+                                                              "uid":  "dfzfudcc9a4u8a"
+                                                          },
+                                           "editorMode":  "code",
+                                           "hide":  false,
+                                           "range":  true
+                                       }
+                                   ],
+                       "title":  "Payment Gateway Latency",
+                       "gridPos":  {
+                                       "y":  32,
+                                       "w":  12,
+                                       "x":  12,
+                                       "h":  8
+                                   }
+                   }
+               ]
+}

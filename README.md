@@ -2,7 +2,7 @@
 **Internal Monitoring & Observability Platform**
 
 ## Overview
-Sentinel-Ops is an enterprise-grade infrastructure monitoring and observability platform engineered to provide real-time visibility into system health. Designed for cloud-native environments, this project automates the provisioning of cloud infrastructure and orchestrates a robust telemetry pipeline, ensuring high availability, proactive alerting, and zero-blind-spot monitoring. 
+Sentinel-Ops is an infrastructure monitoring and observability platform that gives real-time visibility into system health. It provisions the cloud infrastructure on Microsoft Azure automatically and runs a telemetry pipeline with dashboards and threshold-based alerting. 
 
 The E-Commerce/payment environment within this project is utilized strictly as a demonstration showcase and load-testing use case.
 
